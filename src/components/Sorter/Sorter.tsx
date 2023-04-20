@@ -2,14 +2,13 @@ import {
 	ArrowDownIcon,
 	ArrowUpIcon,
 	ChevronDownIcon,
-    FunnelIcon,
 } from '@heroicons/react/24/outline';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 // internal imports
 import {
-	SortOrderDirectionEnum,
 	ProductsSortByEnum,
+	SortOrderDirectionEnum,
 } from 'common/constants/enums';
 
 interface SorterProps {
@@ -28,13 +27,36 @@ export const Sorter: FC<SorterProps> = ({
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
-		<div className="relative flex items-center justify-between mx-2 md:mx-0 my-8">
-			<h2>
-				<b>Photography /</b> Premium Photos
-			</h2>
-            <FunnelIcon width={24} />
-			<div className="hidden md:flex items-center">
-				<div className="flex items-center cursor-pointer whitespace-nowrap">
+		<div className="relative flex flex-col sm:flex-row ml-2 sm:ml-0">
+			<p className="whitespace-nowrap font-semibold mb-2 sm:mb-0">Sort by</p>
+			<div className="flex">
+				<div
+					className="flex items-center cursor-pointer"
+					onClick={() => setIsOpen(!isOpen)}
+				>
+					<p className="ml-2 capitalize w-12">{sortBy}</p>
+					<p className="flex items-center justify-center w-full h-full">
+						<ChevronDownIcon
+							width={15}
+							height={20}
+							className="flex items-center justify-center"
+						/>
+					</p>
+					{isOpen && (
+						<div className="absolute z-10 top-0 sm:top-full right-0 w-[100px] bg-white border border-gray-300 shadow-md">
+							{Object.values(ProductsSortByEnum).map((option) => (
+								<div
+									key={option}
+									className="p-2 hover:bg-gray-200 cursor-pointer"
+									onClick={() => setSortBy(option)}
+								>
+									{option}
+								</div>
+							))}
+						</div>
+					)}
+				</div>
+				<div className="flex items-center cursor-pointer ">
 					{sortOrder === SortOrderDirectionEnum.ASC ? (
 						<span
 							className="flex text-xs"
@@ -58,42 +80,8 @@ export const Sorter: FC<SorterProps> = ({
 							/>
 						</span>
 					)}
-					<span>Sort by</span>
-				</div>
-				<div
-					className="flex items-center cursor-pointer"
-					onClick={() => setIsOpen(!isOpen)}
-				>
-					<p className="ml-2 capitalize w-12">{sortBy}</p>
-					<p className="flex items-center justify-center w-full h-full">
-						<ChevronDownIcon
-							width={15}
-							height={20}
-							className="flex items-center justify-center"
-						/>
-					</p>
-					{isOpen && (
-						<div className="absolute z-10 top-full right-0 w-[100px] bg-white border border-gray-300 shadow-md">
-							{Object.values(ProductsSortByEnum).map((option) => (
-								<div
-									key={option}
-									className="p-2 hover:bg-gray-200 cursor-pointer"
-									onClick={() => setSortBy(option)}
-								>
-									{option}
-								</div>
-							))}
-						</div>
-					)}
 				</div>
 			</div>
-			{/*<button className="md:hidden" onClick={openModal}>
-                <FilterIcon />
-            </button>*/}
-
-			{/*<Modal isOpen={showModal} onClose={closeModal}>
-                <h2>Modal Content</h2>
-            </Modal>*/}
 		</div>
 	);
 };

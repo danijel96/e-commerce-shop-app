@@ -1,5 +1,5 @@
 // internal imports
-import ProductItem from './ProductItem';
+import { ProductItem } from './ProductItem';
 import { Product } from 'common/contracts/product';
 
 interface ProductListProps {

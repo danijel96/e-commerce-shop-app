@@ -1,6 +1,6 @@
 import { ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // internal imports
 import { ProductsPayload } from 'common/contracts/api/payload/products.contracts';
@@ -10,6 +10,7 @@ import { getAllProductsAPI } from 'common/services/api/product';
 import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 import { useShoppingCart } from 'context/ShoppingCartContext';
 import { CartItem } from './CartItem/CartItem';
+import { ErrorComponent } from 'components/Atoms/ErrorComponent';
 
 export const ShoppingCart = () => {
 	const {
@@ -46,7 +47,7 @@ export const ShoppingCart = () => {
 		getProducts();
 	}, []);
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		document.addEventListener('click', closeCart);
 
 		return () => {
@@ -56,6 +57,10 @@ export const ShoppingCart = () => {
 
 	if (isLoading) {
 		return <SpinnerLoader component />;
+	}
+
+	if (isError) {
+		return <ErrorComponent />;
 	}
 
 	return (
@@ -76,7 +81,7 @@ export const ShoppingCart = () => {
 			{isOpen && (
 				<div
 					className={clsx(
-						'absolute flex justify-between z-10 right-0 w-[350px] bg-white border border-gray-300 shadow-md p-2',
+						'absolute flex justify-between z-10 right-0 w-[300px] sm:w-[350px] bg-white border border-gray-300 shadow-md p-2',
 						cartItems?.length === 0 ? 'flex-row' : 'flex-col'
 					)}
 				>

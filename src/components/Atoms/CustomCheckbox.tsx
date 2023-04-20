@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 interface CheckboxProps {
 	id: string;
 	label: string;
@@ -6,13 +8,13 @@ interface CheckboxProps {
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const CustomCheckbox = ({
+export const CustomCheckbox: FC<CheckboxProps> = ({
 	id,
 	label,
 	checked,
 	value,
 	onChange,
-}: CheckboxProps) => {
+}) => {
 	return (
 		<label className="ml-2">
 			<input

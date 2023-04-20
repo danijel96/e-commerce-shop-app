@@ -1,3 +1,4 @@
+import { useLocalStorage } from 'common/hooks/useLocalStorage';
 import {
 	createContext,
 	Dispatch,
@@ -38,10 +39,14 @@ export const useShoppingCart = () => {
 export const ShoppingCartProvider = ({
 	children,
 }: ShoppingCartProviderProps) => {
-	const [cartItems, setCartItems] = useState<CartItem[]>([]);
+	const [cartItems, setCartItems] = useLocalStorage<CartItem[]>(
+		'shopping-cart',
+		[]
+	);
+
 	const [isOpen, setIsOpen] = useState<boolean>(false);
 
-	const cartQuantity = cartItems.reduce(
+	const cartQuantity = cartItems?.reduce(
 		(quantity, item) => item.quantity + quantity,
 		0
 	);

@@ -1,15 +1,18 @@
 import clsx from 'clsx';
+import { FC } from 'react';
+
+// internal imports
 import { LOADING_TEXT } from 'common/constants/global.contants';
 
-interface ISpinnerLoader {
+interface SpinnerLoaderProps {
 	title?: string;
 	component?: boolean;
 }
 
-export function SpinnerLoader({
+export const SpinnerLoader: FC<SpinnerLoaderProps> = ({
 	title = LOADING_TEXT,
 	component = false,
-}: ISpinnerLoader) {
+}) => {
 	return (
 		<div
 			className={clsx(
@@ -48,4 +51,4 @@ export function SpinnerLoader({
 			</button>
 		</div>
 	);
-}
+};

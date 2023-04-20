@@ -13,7 +13,7 @@ interface FeaturedProductProps {
 export const FeaturedProduct: FC<FeaturedProductProps> = ({
 	featuredProduct,
 }) => {
-	const { increaseCartQuantity, cartItems } = useShoppingCart();
+	const { increaseCartQuantity } = useShoppingCart();
 
 	return (
 		<div className="h-auto mx-2 md:mx-0 border-b-4 ">

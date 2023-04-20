@@ -1,6 +1,8 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
+import { useMedia } from 'react-use';
 
 // internal imports
+import { BREAKPOINTS } from 'common/constants/global.contants';
 import { PriceValues } from 'common/contracts/general.contracts';
 import { categoriesData, priceRangeData } from 'common/utils/filters.data';
 import { CustomCheckbox } from 'components/Atoms/CustomCheckbox';
@@ -10,13 +12,17 @@ interface FiltersProps {
 	setCategories: Dispatch<SetStateAction<string[]>>;
 	priceRange: PriceValues;
 	setPriceRange: Dispatch<SetStateAction<PriceValues>>;
+	closeDrawer?: () => void;
 }
 export const Filters: FC<FiltersProps> = ({
 	categories,
 	setCategories,
 	priceRange,
 	setPriceRange,
+	closeDrawer,
 }) => {
+	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
+
 	const ifCategoryChecked = (value: string) => {
 		const findCategory = categories.find((item) => item === value);
 		if (!findCategory) {
@@ -27,7 +33,6 @@ export const Filters: FC<FiltersProps> = ({
 
 	const handleCategories = (event: ChangeEvent<HTMLInputElement>) => {
 		const clickedCategory = event.target.value;
-		console.log(clickedCategory, 'clickedCategory');
 
 		const categoryChecked = ifCategoryChecked(event.target.value);
 
@@ -44,6 +49,7 @@ export const Filters: FC<FiltersProps> = ({
 
 	const removeCategory = (category: string) => {
 		const filteredCategories = categories.filter((item) => item !== category);
+
 		setCategories(filteredCategories);
 	};
 
@@ -63,8 +69,13 @@ export const Filters: FC<FiltersProps> = ({
 		setPriceRange(clickedPriceRange);
 	};
 
+	const handleClearFilters = () => {
+		setPriceRange(0);
+		setCategories([]);
+	};
+
 	return (
-		<div className="hidden w-[25%] sm:flex flex-col ml-2">
+		<div className="w-full sm:w-[25%] sm:flex flex-col ml-2">
 			<h2 className="font-medium mb-4">Category</h2>
 			{categoriesData.map((category) => (
 				<div
@@ -80,7 +91,7 @@ export const Filters: FC<FiltersProps> = ({
 					/>
 				</div>
 			))}
-			<div className="h-[1px] bg-[#C2C2C2] my-8"></div>
+			<div className="h-[1px] bg-[#C2C2C2] my-8" />
 
 			<h2 className="font-medium mb-4">Price range</h2>
 			{priceRangeData.map((price) => (
@@ -97,6 +108,20 @@ export const Filters: FC<FiltersProps> = ({
 					/>
 				</div>
 			))}
+			<button
+				className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-5"
+				onClick={handleClearFilters}
+			>
+				Clear Filters
+			</button>
+			{isMobile && (
+				<button
+					className="btn btn-blue ml-5"
+					onClick={closeDrawer}
+				>
+					Show results
+				</button>
+			)}
 		</div>
 	);
 };

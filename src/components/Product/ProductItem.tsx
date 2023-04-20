@@ -8,7 +8,7 @@ interface ProductItemProps {
 	product: Product;
 }
 
-const ProductItem = ({ product }: ProductItemProps) => {
+export const ProductItem = ({ product }: ProductItemProps) => {
 	const { increaseCartQuantity } = useShoppingCart();
 
 	return (
@@ -37,11 +37,11 @@ const ProductItem = ({ product }: ProductItemProps) => {
 				<p className="capitalize text-[#656565] text-xl mt-1">
 					{product.category}
 				</p>
-				<p className="font-bold mt-2 text-3xl sm:text-2xl lg:text-3xl">{product.name} </p>
+				<p className="font-bold mt-2 text-3xl sm:text-2xl lg:text-3xl">
+					{product.name}{' '}
+				</p>
 				<p className="text-[#656565] mt-3">${product.price}</p>
 			</div>
 		</div>
 	);
 };
-
-export default ProductItem;

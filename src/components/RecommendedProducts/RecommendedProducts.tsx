@@ -2,14 +2,15 @@ import Image from 'next/image';
 
 // internal imports
 import { ProductRecommendations } from 'common/contracts/product';
+import { FC } from 'react';
 
 interface RecommendedProductsProps {
 	recommendedProducts: ProductRecommendations[];
 }
 
-export const RecommendedProducts = ({
+export const RecommendedProducts: FC<RecommendedProductsProps> = ({
 	recommendedProducts,
-}: RecommendedProductsProps) => {
+}) => {
 	return (
 		<div className=" flex flex-col mb-4 w-full">
 			<h2 className="font-bold md:ml-auto mb-2">People also buy</h2>
