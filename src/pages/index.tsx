@@ -94,7 +94,7 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		<div className="min-h-screen max-w-2xl bg-white p-5 mx-auto">
+		<div className="products-page min-h-screen max-w-4xl bg-white p-5 mx-auto">
 			<Header />
 			<main>
 				{featuredProduct && (
@@ -106,7 +106,7 @@ const Home: NextPage = () => {
 					sortOrder={sortOrder}
 					setSortOrder={setSortOrder}
 				/>
-				<div className="flex">
+				<div className="filter-products flex mx-3 md:m-0">
 					<Filters
 						categories={categories}
 						setCategories={setCategories}

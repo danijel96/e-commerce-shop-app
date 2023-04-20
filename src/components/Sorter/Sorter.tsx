@@ -2,6 +2,7 @@ import {
 	ArrowDownIcon,
 	ArrowUpIcon,
 	ChevronDownIcon,
+    FunnelIcon,
 } from '@heroicons/react/24/outline';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
@@ -31,6 +32,7 @@ export const Sorter: FC<SorterProps> = ({
 			<h2>
 				<b>Photography /</b> Premium Photos
 			</h2>
+            <FunnelIcon width={24} />
 			<div className="hidden md:flex items-center">
 				<div className="flex items-center cursor-pointer whitespace-nowrap">
 					{sortOrder === SortOrderDirectionEnum.ASC ? (

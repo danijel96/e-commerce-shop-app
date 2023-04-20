@@ -46,7 +46,10 @@ export const FeaturedProduct: FC<FeaturedProductProps> = ({
 			)}
 
 			{/* Hide this div on medium+ screens */}
-			<div className="flex bg-[black] text-white mt-4 items-center justify-center py-1 md:hidden">
+			<div
+				className="flex bg-[black] text-white mt-4 items-center justify-center py-1 md:hidden"
+				onClick={() => increaseCartQuantity(featuredProduct._id)}
+			>
 				<button>ADD TO CART</button>
 			</div>
 

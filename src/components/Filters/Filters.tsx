@@ -64,7 +64,7 @@ export const Filters: FC<FiltersProps> = ({
 	};
 
 	return (
-		<div className="hidden w-[25%] md:flex flex-col ml-2">
+		<div className="hidden w-[25%] sm:flex flex-col ml-2">
 			<h2 className="font-medium mb-4">Category</h2>
 			{categoriesData.map((category) => (
 				<div
