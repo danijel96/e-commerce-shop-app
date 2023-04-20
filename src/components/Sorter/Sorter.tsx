@@ -25,10 +25,9 @@ export const Sorter: FC<SorterProps> = ({
 	setSortOrder,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
-	console.log(sortBy, 'sortBy');
 
 	return (
-		<div className="relative flex items-center justify-between mx-2 md:mx-0 mt-4 mb-4">
+		<div className="relative flex items-center justify-between mx-2 md:mx-0 my-8">
 			<h2>
 				<b>Photography /</b> Premium Photos
 			</h2>

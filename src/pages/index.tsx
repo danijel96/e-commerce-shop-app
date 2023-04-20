@@ -2,23 +2,27 @@ import { NextPage } from 'next';
 import { useCallback, useEffect, useState } from 'react';
 
 // internal imports
-//import { products } from "db"
-import { ProductsSortByEnum, SortOrderDirectionEnum } from 'common/constants/enums';
+// import { products } from "db"
+import {
+	ProductsSortByEnum,
+	SortOrderDirectionEnum,
+} from 'common/constants/enums';
 import { ProductsPayload } from 'common/contracts/api/payload/products.contracts';
 import { IFeaturedProduct, Product } from 'common/contracts/product';
 import { isDomainError } from 'common/services/api/config';
 import {
-    getAllProductsAPI,
-    getFeaturedProductAPI,
+	getAllProductsAPI,
+	getFeaturedProductAPI,
 } from 'common/services/api/product';
 import { ErrorComponent } from 'components/Atoms/ErrorComponent';
 import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 import { Filters } from 'components/Filters/Filters';
 import { Header } from 'components/Header/Header';
-import { Pagination } from 'components/Pagination';
+import { Pagination } from 'components/Pagination/Pagination';
 import { FeaturedProduct } from 'components/Product/FeaturedProduct';
-import ProductList from 'components/Product/ProductsList';
+import { ProductList } from 'components/Product/ProductsList';
 import { Sorter } from 'components/Sorter/Sorter';
+import { PriceValues } from 'common/contracts/general.contracts';
 
 interface IProducts {
 	items: Product[];
@@ -37,7 +41,7 @@ const Home: NextPage = () => {
 	>(undefined);
 
 	const [categories, setCategories] = useState<string[]>([]);
-	const [priceRange, setPriceRange] = useState<number>(0);
+	const [priceRange, setPriceRange] = useState<PriceValues>(0);
 
 	const [sortBy, setSortBy] = useState(ProductsSortByEnum.PRICE);
 	const [sortOrder, setSortOrder] = useState(SortOrderDirectionEnum.ASC);

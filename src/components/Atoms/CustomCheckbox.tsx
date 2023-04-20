@@ -1,4 +1,4 @@
- interface CheckboxProps {
+interface CheckboxProps {
 	id: string;
 	label: string;
 	checked: boolean;
@@ -6,7 +6,7 @@
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const CustomCheckbox = ({
+export const CustomCheckbox = ({
 	id,
 	label,
 	checked,
@@ -27,5 +27,3 @@ const CustomCheckbox = ({
 		</label>
 	);
 };
-
-export default CustomCheckbox;

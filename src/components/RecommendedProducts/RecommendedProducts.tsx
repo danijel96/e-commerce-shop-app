@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 // internal imports
 import { ProductRecommendations } from 'common/contracts/product';
 
@@ -6,7 +7,7 @@ interface RecommendedProductsProps {
 	recommendedProducts: ProductRecommendations[];
 }
 
-const RecommendedProducts = ({
+export const RecommendedProducts = ({
 	recommendedProducts,
 }: RecommendedProductsProps) => {
 	return (
@@ -33,5 +34,3 @@ const RecommendedProducts = ({
 		</div>
 	);
 };
-
-export default RecommendedProducts;

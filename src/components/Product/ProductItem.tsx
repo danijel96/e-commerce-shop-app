@@ -1,13 +1,15 @@
+import Image from 'next/image';
+
+// internal imports
 import { Product } from 'common/contracts/product';
 import { useShoppingCart } from 'context/ShoppingCartContext';
-import Image from 'next/image';
 
 interface ProductItemProps {
 	product: Product;
 }
 
 const ProductItem = ({ product }: ProductItemProps) => {
-	const { increaseCartQuantity, cartItems } = useShoppingCart();    
+	const { increaseCartQuantity } = useShoppingCart();
 
 	return (
 		<div className="mt-2 mx-2 md:mx-0 md:mt-0">

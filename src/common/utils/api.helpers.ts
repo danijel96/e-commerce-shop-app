@@ -1,13 +1,11 @@
-interface PriceRange {
-	priceMin: number | null;
-	priceMax: number | null;
-}
+import { PriceRange, PriceValues } from 'common/contracts/general.contracts';
+
 /**
  * Extract price min & max from provided price range value.
  * @param {number} value - Choosen value from given price ranges
  * @returns priceRange object.
  */
-export const extractMinMaxPriceRanges = (value: number) => {
+export const extractMinMaxPriceRanges = (value: PriceValues) => {
 	let priceRange: PriceRange = { priceMin: null, priceMax: null };
 
 	switch (value) {

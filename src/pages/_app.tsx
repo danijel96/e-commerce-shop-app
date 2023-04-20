@@ -8,7 +8,7 @@ import 'styles/main.scss';
 export default function App({ Component, pageProps }: AppProps) {
 	return (
 		<ShoppingCartProvider>
-			<Component {...pageProps} />;
+			<Component {...pageProps} />
 		</ShoppingCartProvider>
 	);
 }

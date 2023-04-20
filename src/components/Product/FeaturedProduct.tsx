@@ -2,8 +2,9 @@ import Image from 'next/image';
 import { FC } from 'react';
 
 // internal imports
-import RecommendedProducts from 'components/RecommendedProducts/RecommendedProducts';
+import { RecommendedProducts } from 'components/RecommendedProducts/RecommendedProducts';
 import { IFeaturedProduct } from 'common/contracts/product';
+import { useShoppingCart } from 'context/ShoppingCartContext';
 
 interface FeaturedProductProps {
 	featuredProduct: IFeaturedProduct;
@@ -12,6 +13,8 @@ interface FeaturedProductProps {
 export const FeaturedProduct: FC<FeaturedProductProps> = ({
 	featuredProduct,
 }) => {
+	const { increaseCartQuantity, cartItems } = useShoppingCart();
+
 	return (
 		<div className="h-auto mx-2 md:mx-0 border-b-4 ">
 			<div className="flex">
@@ -20,7 +23,10 @@ export const FeaturedProduct: FC<FeaturedProductProps> = ({
 				</h2>
 				{/* Hide this div on small screens */}
 				<div className="hidden ml-auto md:flex items-center">
-					<button className="text-white px-4 py-1 bg-black ">
+					<button
+						className="text-white px-4 py-1 bg-black "
+						onClick={() => increaseCartQuantity(featuredProduct._id)}
+					>
 						ADD TO CART
 					</button>
 				</div>
