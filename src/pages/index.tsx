@@ -1,7 +1,7 @@
 import { FunnelIcon } from '@heroicons/react/24/outline';
 import { NextPage } from 'next';
 import Head from 'next/head';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useMedia } from 'react-use';
 
 // internal imports
@@ -10,14 +10,11 @@ import {
 	SortOrderDirectionEnum,
 } from 'common/constants/enums';
 import { BREAKPOINTS } from 'common/constants/global.contants';
-import { ProductsPayload } from 'common/contracts/api/payload/products.contracts';
 import { PriceValues } from 'common/contracts/general.contracts';
-import { IFeaturedProduct, Product } from 'common/contracts/product';
-import { isDomainError } from 'common/services/api/config';
 import {
-	getAllProductsAPI,
-	getFeaturedProductAPI,
-} from 'common/services/api/product';
+	useAllProductsAPI,
+	useFeaturedProductAPI,
+} from 'common/services/api/hooks/products.hook';
 import { ErrorComponent } from 'components/Atoms/ErrorComponent';
 import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 import { Drawer } from 'components/Drawer/Drawer';
@@ -27,24 +24,13 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { FeaturedProduct } from 'components/Product/FeaturedProduct';
 import { ProductList } from 'components/Product/ProductsList';
 import { Sorter } from 'components/Sorter/Sorter';
-
-interface IProducts {
-	items: Product[];
-	totalProducts: number;
-}
+import FiltersButtons from 'components/Filters/FiltersButtons';
+import Footer from 'components/Footer/Footer';
 
 const Home: NextPage = () => {
-	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true);
-
-	const [isLoading, setIsLoading] = useState(true);
-	const [isError, setIsError] = useState(false);
+	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true); // true is defaultState parameter for ssr to avoid hydration error
 
 	const [currentPage, setCurrentPage] = useState<number>(1);
-
-	const [products, setProducts] = useState<IProducts | undefined>(undefined);
-	const [featuredProduct, setFeaturedProduct] = useState<
-		IFeaturedProduct | undefined
-	>(undefined);
 
 	const [categories, setCategories] = useState<string[]>([]);
 	const [priceRange, setPriceRange] = useState<PriceValues>(0);
@@ -52,45 +38,24 @@ const Home: NextPage = () => {
 	const [sortBy, setSortBy] = useState(ProductsSortByEnum.PRICE);
 	const [sortOrder, setSortOrder] = useState(SortOrderDirectionEnum.ASC);
 
-	const getProducts = useCallback(async () => {
-		const payload: ProductsPayload = {
-			page: currentPage,
-			limit: 6,
-			category: categories,
-			priceRange,
-			sortOrder,
-			sortBy,
-		};
-		const response = await getAllProductsAPI(payload);
-		if (isDomainError(response)) {
-			alert('Something went wrong. Try later!');
-			setIsError(true);
-			return;
-		}
+	const {
+		data: featuredProduct,
+		error: featuredError,
+		isLoading: featuredIsLoading,
+	} = useFeaturedProductAPI();
 
-		setIsLoading(false);
-		setProducts({
-			items: response.products,
-			totalProducts: response.totalProducts,
-		});
-		setCurrentPage(response.currentPage);
-	}, [currentPage, categories, priceRange, sortOrder, sortBy]);
-
-	const getFeaturedProduct = async () => {
-		const response = await getFeaturedProductAPI();
-
-		if (isDomainError(response)) {
-			alert('Something went wrong. Try later!');
-			setIsError(true);
-			return;
-		}
-		setFeaturedProduct(response);
-	};
-
-	useEffect(() => {
-		getProducts();
-		getFeaturedProduct();
-	}, [getProducts]);
+	const {
+		data: productsData,
+		error,
+		isLoading,
+	} = useAllProductsAPI({
+		page: currentPage,
+		limit: 6,
+		category: categories,
+		priceRange,
+		sortOrder,
+		sortBy,
+	});
 
 	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
 
@@ -98,10 +63,23 @@ const Home: NextPage = () => {
 		setIsOpenDrawer((prev) => !prev);
 	};
 
-	if (isError) {
+	const handleClearFilters = () => {
+		setPriceRange(0);
+		setCategories([]);
+	};
+
+	const handleNoResults = () => {
+		let results = 'No products';
+		if (categories.length !== 0) {
+			results = 'No products based on your search. Change filters and try again!';
+		}
+		return results;
+	};
+
+	if (error) {
 		return <ErrorComponent />;
 	}
-	if (isLoading) {
+	if (isLoading && featuredIsLoading) {
 		return <SpinnerLoader />;
 	}
 
@@ -113,7 +91,7 @@ const Home: NextPage = () => {
 			<Header />
 			<main>
 				{featuredProduct && (
-					<FeaturedProduct featuredProduct={featuredProduct} />
+					<FeaturedProduct featuredProduct={featuredProduct?.data[0]} />
 				)}
 				<div className="relative flex items-center justify-between mx-2 md:mx-0 my-8">
 					<h2>
@@ -141,7 +119,7 @@ const Home: NextPage = () => {
 					)}
 				</div>
 
-				<div className="filter-products flex mx-3 md:m-0">
+				<div className="relative filter-products flex mx-3 md:m-0">
 					{!isMobile && (
 						<Filters
 							categories={categories}
@@ -150,13 +128,20 @@ const Home: NextPage = () => {
 							setPriceRange={setPriceRange}
 						/>
 					)}
-					{products && <ProductList products={products.items} />}
+					{isLoading && <SpinnerLoader component />}
+					{productsData?.data.products.length ? (
+						<ProductList products={productsData?.data.products} />
+					) : (
+						<div className="grow flex justify-center items-center min-h-[200px] mx-5">
+							<p className="text-lg text-center">{handleNoResults()}</p>
+						</div>
+					)}
 				</div>
-				{products?.totalProducts ? (
+				{productsData?.data.totalProducts ? (
 					<Pagination
 						className="pagination-bar mt-10"
 						currentPage={currentPage || 1}
-						totalCount={products.totalProducts}
+						totalCount={productsData?.data.totalProducts}
 						onPageChange={(p) => setCurrentPage(p)}
 						pageSize={6}
 					/>
@@ -166,6 +151,7 @@ const Home: NextPage = () => {
 				isOpen={isOpenDrawer}
 				closeDrawer={toggleDrawer}
 				title="Sorting & Filters"
+				childrenClassName="pb-10"
 				titleIcon={
 					<FunnelIcon
 						color="black"
@@ -187,7 +173,16 @@ const Home: NextPage = () => {
 					setPriceRange={setPriceRange}
 					closeDrawer={toggleDrawer}
 				/>
+				{isMobile && (
+					<div className="flex justify-center items-center  whitespace-nowrap bg-white fixed left-0 bottom-0 w-full py-2">
+						<FiltersButtons
+							closeDrawer={toggleDrawer}
+							handleClearFilters={handleClearFilters}
+						/>
+					</div>
+				)}
 			</Drawer>
+			<Footer />
 		</div>
 	);
 };

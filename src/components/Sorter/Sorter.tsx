@@ -3,7 +3,8 @@ import {
 	ArrowUpIcon,
 	ChevronDownIcon,
 } from '@heroicons/react/24/outline';
-import { Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useRef, useState } from 'react';
+import { useClickAway } from 'react-use';
 
 // internal imports
 import {
@@ -25,12 +26,18 @@ export const Sorter: FC<SorterProps> = ({
 	setSortOrder,
 }) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const ref = useRef<HTMLDivElement>(null);
+
+	useClickAway(ref, () => {
+		setIsOpen(false);
+	});
 
 	return (
 		<div className="relative flex flex-col sm:flex-row ml-2 sm:ml-0">
 			<p className="whitespace-nowrap font-semibold mb-2 sm:mb-0">Sort by</p>
 			<div className="flex">
 				<div
+					ref={ref}
 					className="flex items-center cursor-pointer"
 					onClick={() => setIsOpen(!isOpen)}
 				>
@@ -43,7 +50,7 @@ export const Sorter: FC<SorterProps> = ({
 						/>
 					</p>
 					{isOpen && (
-						<div className="absolute z-10 top-0 sm:top-full right-0 w-[100px] bg-white border border-gray-300 shadow-md">
+						<div className="absolute z-10 top-[60px] left-0 sm:top-full sm:right-0 w-[100px] bg-white border border-gray-300 shadow-md">
 							{Object.values(ProductsSortByEnum).map((option) => (
 								<div
 									key={option}

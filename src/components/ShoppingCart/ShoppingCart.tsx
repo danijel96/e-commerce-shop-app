@@ -7,10 +7,9 @@ import { ProductsPayload } from 'common/contracts/api/payload/products.contracts
 import { Product } from 'common/contracts/product';
 import { isDomainError } from 'common/services/api/config';
 import { getAllProductsAPI } from 'common/services/api/product';
-import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
+import { ErrorComponent } from 'components/Atoms/ErrorComponent';
 import { useShoppingCart } from 'context/ShoppingCartContext';
 import { CartItem } from './CartItem/CartItem';
-import { ErrorComponent } from 'components/Atoms/ErrorComponent';
 
 export const ShoppingCart = () => {
 	const {
@@ -22,7 +21,6 @@ export const ShoppingCart = () => {
 		setIsOpen,
 	} = useShoppingCart();
 
-	const [isLoading, setIsLoading] = useState(true);
 	const [isError, setIsError] = useState(false);
 
 	const [products, setProducts] = useState<Product[] | undefined>(undefined);
@@ -34,12 +32,10 @@ export const ShoppingCart = () => {
 		};
 		const response = await getAllProductsAPI(payload);
 		if (isDomainError(response)) {
-			alert('Something went wrong. Try later!');
 			setIsError(true);
 			return;
 		}
 
-		setIsLoading(false);
 		setProducts(response.products);
 	};
 
@@ -54,10 +50,6 @@ export const ShoppingCart = () => {
 			document.removeEventListener('click', closeCart);
 		};
 	}, [closeCart]);
-
-	if (isLoading) {
-		return <SpinnerLoader component />;
-	}
 
 	if (isError) {
 		return <ErrorComponent />;
@@ -84,6 +76,7 @@ export const ShoppingCart = () => {
 						'absolute flex justify-between z-10 right-0 w-[300px] sm:w-[350px] bg-white border border-gray-300 shadow-md p-2',
 						cartItems?.length === 0 ? 'flex-row' : 'flex-col'
 					)}
+					onClick={(e) => e.stopPropagation()}
 				>
 					{cartItems?.length === 0 && (
 						<div className="flex mx-auto self-center">

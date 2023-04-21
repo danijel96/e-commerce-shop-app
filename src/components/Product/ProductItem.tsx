@@ -28,7 +28,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
 				/>
 				<button
 					onClick={() => increaseCartQuantity(product._id)}
-					className="absolute bottom-0 left-0 w-full bg-[black] text-white opacity-100 md:opacity-0 md:hover:opacity-100 md:hover:block md:hover:absolute md:hover:bottom-0 md:hover:left-0 md:hover:w-full md:hover:bg-[black] md:hover:text-white group-hover:opacity-100"
+					className="absolute bottom-0 left-0 w-full bg-[black] text-white opacity-100 py-2 sm:py-1 md:opacity-0 md:hover:opacity-100 md:hover:block md:hover:absolute md:hover:bottom-0 md:hover:left-0 md:hover:w-full md:hover:bg-[black] md:hover:text-white group-hover:opacity-100"
 				>
 					ADD TO CART
 				</button>

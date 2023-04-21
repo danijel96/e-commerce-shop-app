@@ -1,6 +1,7 @@
 import { FC, Fragment, PropsWithChildren } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 
 interface DrawerProps {
 	isOpen: boolean;
@@ -8,6 +9,7 @@ interface DrawerProps {
 	title?: string;
 	headerDrawer?: boolean;
 	titleIcon?: JSX.Element;
+	childrenClassName?: string;
 }
 
 export const Drawer: FC<PropsWithChildren<DrawerProps>> = ({
@@ -16,6 +18,7 @@ export const Drawer: FC<PropsWithChildren<DrawerProps>> = ({
 	closeDrawer,
 	title,
 	titleIcon,
+	childrenClassName,
 }) => {
 	return (
 		<Transition
@@ -67,7 +70,12 @@ export const Drawer: FC<PropsWithChildren<DrawerProps>> = ({
 									/>
 								</button>
 							</div>
-							<div className="overflow-y-scroll overflow-x-hidden mt-3">
+							<div
+								className={clsx(
+									'overflow-y-scroll overflow-x-hidden mt-3',
+									childrenClassName
+								)}
+							>
 								{children}
 							</div>
 						</div>

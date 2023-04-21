@@ -6,6 +6,7 @@ import { BREAKPOINTS } from 'common/constants/global.contants';
 import { PriceValues } from 'common/contracts/general.contracts';
 import { categoriesData, priceRangeData } from 'common/utils/filters.data';
 import { CustomCheckbox } from 'components/Atoms/CustomCheckbox';
+import FiltersButtons from './FiltersButtons';
 
 interface FiltersProps {
 	categories: string[];
@@ -108,19 +109,11 @@ export const Filters: FC<FiltersProps> = ({
 					/>
 				</div>
 			))}
-			<button
-				className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow mt-5"
-				onClick={handleClearFilters}
-			>
-				Clear Filters
-			</button>
-			{isMobile && (
-				<button
-					className="btn btn-blue ml-5"
-					onClick={closeDrawer}
-				>
-					Show results
-				</button>
+			{!isMobile && (
+				<FiltersButtons
+					closeDrawer={closeDrawer}
+					handleClearFilters={handleClearFilters}
+				/>
 			)}
 		</div>
 	);
