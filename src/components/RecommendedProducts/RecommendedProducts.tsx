@@ -1,8 +1,9 @@
 import Image from 'next/image';
+import { FC } from 'react';
 
 // internal imports
+import { DEFAULT_RECOMMENDED_PRODUCT_IMAGE_SIZE } from 'common/constants/global.contants';
 import { ProductRecommendations } from 'common/contracts/product';
-import { FC } from 'react';
 
 interface RecommendedProductsProps {
 	recommendedProducts: ProductRecommendations[];
@@ -19,8 +20,8 @@ export const RecommendedProducts: FC<RecommendedProductsProps> = ({
 					recommendedProducts.map((product, index) => (
 						<Image
 							key={index}
-							width={150}
-							height={125}
+							width={DEFAULT_RECOMMENDED_PRODUCT_IMAGE_SIZE.width}
+							height={DEFAULT_RECOMMENDED_PRODUCT_IMAGE_SIZE.height}
 							src={product.src}
 							alt={product.alt}
 							className="md:ml-10 w-[25%]"

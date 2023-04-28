@@ -1,10 +1,10 @@
 import { API_ENDPOINTS } from 'common/constants/api.constants';
-import { api, buildDomainError } from '../config';
-import { APIError } from 'common/models/response/api/api-error.model';
-import { IFeaturedProduct, Product } from 'common/contracts/product';
 import { ProductsPayload } from 'common/contracts/api/payload/products.contracts';
 import { ProductsResponse } from 'common/contracts/api/response/product.contract';
+import { IFeaturedProduct } from 'common/contracts/product';
+import { APIError } from 'common/models/response/api/api-error.model';
 import { extractMinMaxPriceRanges } from 'common/utils/api.helpers';
+import { api, buildDomainError } from '../config';
 
 /**
  * Send a GET API request to get all products.
@@ -37,41 +37,6 @@ export const getAllProductsAPI = async (
 		return buildDomainError(error);
 	}
 };
-
-//export const getAllProductsAPI = async (
-//    payload?: ProductsPayload
-//  ): Promise<ProductsResponse | APIError> => {
-//    const {
-//      page = null,
-//      limit = null,
-//      category = null,
-//      priceRange = null,
-//      sortOrder = null,
-//      sortBy = null
-//    } = payload || {};
-
-//    const { priceMin = null, priceMax = null } = priceRange
-//      ? extractMinMaxPriceRanges(priceRange)
-//      : {};
-
-//    try {
-//      const response = await api.get(API_ENDPOINTS.PRODUCTS.INDEX, {
-//        params: {
-//          page,
-//          limit,
-//          category,
-//          priceMin,
-//          priceMax,
-//          sortOrder,
-//          sortBy
-//        },
-//      });
-
-//      return response.data as ProductsResponse;
-//    } catch (error) {
-//      return buildDomainError(error);
-//    }
-//  };
 
 /**
  * Send a GET API request to get one featured product.

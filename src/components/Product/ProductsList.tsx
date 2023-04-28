@@ -8,7 +8,7 @@ interface ProductListProps {
 
 export const ProductList = ({ products }: ProductListProps) => {
 	return (
-		<div className="w-full h-auto sm:grid sm:grid-cols-3 gap-2 sm:w-[70%] sm:ml-auto">
+		<div className="w-full xs:grid xs:grid-cols-2 sm:grid-cols-3 gap-x-6 gap-y-4 sm:gap-x-2 sm:w-[70%] sm:ml-auto">
 			{products &&
 				products?.map((product) => (
 					<ProductItem

@@ -3,6 +3,6 @@
  * @returns Current year in number type.
  */
 export const currentYear = (): number => {
-  const date = new Date();
-  return date.getFullYear();
+	const date = new Date();
+	return date.getFullYear();
 };

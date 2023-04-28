@@ -12,7 +12,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
 	const { increaseCartQuantity } = useShoppingCart();
 
 	return (
-		<div className="mt-2 md:mx-0 md:mt-0 mb-7 sm:mb-0">
+		<div className="mt-2 sm:mx-[initial] sm:mt-0 mb-7 xs:mb-2 sm:mb-0">
 			<div className="relative group">
 				{product.bestseller && (
 					<p className="absolute bg-white text-sm px-2 font-[500]">
@@ -24,7 +24,7 @@ export const ProductItem = ({ product }: ProductItemProps) => {
 					alt={product.image.alt}
 					className="w-full"
 					width={800}
-					height={1}
+					height={120}
 				/>
 				<button
 					onClick={() => increaseCartQuantity(product._id)}
@@ -33,14 +33,14 @@ export const ProductItem = ({ product }: ProductItemProps) => {
 					ADD TO CART
 				</button>
 			</div>
-			<div>
+			<div className="text-center sm:text-left">
 				<p className="capitalize text-[#656565] text-xl mt-1">
 					{product.category}
 				</p>
-				<p className="font-bold mt-2 text-3xl sm:text-2xl lg:text-3xl">
+				<p className="font-bold mt-2 sm:mt-0 text-3xl sm:text-2xl lg:text-3xl truncate hover:text-clip">
 					{product.name}{' '}
 				</p>
-				<p className="text-[#656565] mt-3">${product.price}</p>
+				<p className="text-[#656565] mt-3 sm:mt-1">${product.price}</p>
 			</div>
 		</div>
 	);

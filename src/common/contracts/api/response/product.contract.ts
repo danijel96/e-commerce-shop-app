@@ -1,6 +1,8 @@
 import { AxiosResponse } from 'axios';
-import { IFeaturedProduct, Product } from 'common/contracts/product';
 import { SWRResponse } from 'swr';
+
+// internal imports
+import { IFeaturedProduct, Product } from 'common/contracts/product';
 
 export interface ProductsResponse {
 	currentPage: number;

@@ -1,4 +1,3 @@
-// Contracts
 import { HTTPExceptionDTO } from 'common/contracts/api/response/error.contracts';
 import { DEFAULT_ERROR_MESSAGE } from 'common/constants/api.constants';
 

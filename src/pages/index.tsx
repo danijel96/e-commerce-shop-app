@@ -9,7 +9,10 @@ import {
 	ProductsSortByEnum,
 	SortOrderDirectionEnum,
 } from 'common/constants/enums';
-import { BREAKPOINTS } from 'common/constants/global.contants';
+import {
+	BREAKPOINTS,
+	DEFAULT_PAGE_SIZE_LIMIT,
+} from 'common/constants/global.contants';
 import { PriceValues } from 'common/contracts/general.contracts';
 import {
 	useAllProductsAPI,
@@ -19,13 +22,13 @@ import { ErrorComponent } from 'components/Atoms/ErrorComponent';
 import { SpinnerLoader } from 'components/Atoms/SpinnerLoader';
 import { Drawer } from 'components/Drawer/Drawer';
 import { Filters } from 'components/Filters/Filters';
+import FiltersButtons from 'components/Filters/FiltersButtons';
+import { Footer } from 'components/Footer/Footer';
 import { Header } from 'components/Header/Header';
 import { Pagination } from 'components/Pagination/Pagination';
 import { FeaturedProduct } from 'components/Product/FeaturedProduct';
 import { ProductList } from 'components/Product/ProductsList';
 import { Sorter } from 'components/Sorter/Sorter';
-import FiltersButtons from 'components/Filters/FiltersButtons';
-import Footer from 'components/Footer/Footer';
 
 const Home: NextPage = () => {
 	const isMobile = useMedia(`(max-width: ${BREAKPOINTS.SM})`, true); // true is defaultState parameter for ssr to avoid hydration error
@@ -38,11 +41,8 @@ const Home: NextPage = () => {
 	const [sortBy, setSortBy] = useState(ProductsSortByEnum.PRICE);
 	const [sortOrder, setSortOrder] = useState(SortOrderDirectionEnum.ASC);
 
-	const {
-		data: featuredProduct,
-		error: featuredError,
-		isLoading: featuredIsLoading,
-	} = useFeaturedProductAPI();
+	const { data: featuredProduct, isLoading: featuredIsLoading } =
+		useFeaturedProductAPI();
 
 	const {
 		data: productsData,
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
 		isLoading,
 	} = useAllProductsAPI({
 		page: currentPage,
-		limit: 6,
+		limit: DEFAULT_PAGE_SIZE_LIMIT,
 		category: categories,
 		priceRange,
 		sortOrder,
@@ -71,7 +71,8 @@ const Home: NextPage = () => {
 	const handleNoResults = () => {
 		let results = 'No products';
 		if (categories.length !== 0) {
-			results = 'No products based on your search. Change filters and try again!';
+			results =
+				'No products based on your search. Change filters and try again!';
 		}
 		return results;
 	};
@@ -132,7 +133,7 @@ const Home: NextPage = () => {
 					{productsData?.data.products.length ? (
 						<ProductList products={productsData?.data.products} />
 					) : (
-						<div className="grow flex justify-center items-center min-h-[200px] mx-5">
+						<div className="grow flex justify-center items-center min-h-[200px] mx-5 sm:mx-10">
 							<p className="text-lg text-center">{handleNoResults()}</p>
 						</div>
 					)}
@@ -143,7 +144,7 @@ const Home: NextPage = () => {
 						currentPage={currentPage || 1}
 						totalCount={productsData?.data.totalProducts}
 						onPageChange={(p) => setCurrentPage(p)}
-						pageSize={6}
+						pageSize={DEFAULT_PAGE_SIZE_LIMIT}
 					/>
 				) : null}
 			</main>
