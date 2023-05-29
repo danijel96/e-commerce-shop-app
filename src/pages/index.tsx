@@ -57,7 +57,7 @@ const Home: NextPage = () => {
 		sortBy,
 	});
 
-	const [isOpenDrawer, setIsOpenDrawer] = useState<boolean>(false);
+	const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
 	const toggleDrawer = () => {
 		setIsOpenDrawer((prev) => !prev);
@@ -131,7 +131,11 @@ const Home: NextPage = () => {
 					)}
 					{isLoading && <SpinnerLoader component />}
 					{productsData?.data.products.length ? (
-						<ProductList products={productsData?.data.products} />
+						<ProductList
+							products={productsData?.data.products.filter(
+								(product) => product.featured === false
+							)}
+						/>
 					) : (
 						<div className="grow flex justify-center items-center min-h-[200px] mx-5 sm:mx-10">
 							<p className="text-lg text-center">{handleNoResults()}</p>
